@@ -20,7 +20,6 @@ def get_db():
         db.close()
 
 @app.get("/status", response_model=HealthCheck)
-@app.get("/status/", response_model=HealthCheck)
 def health_check(request: Request):
     """
     Health check of the API.
@@ -38,7 +37,6 @@ def health_check(request: Request):
     return response
 
 @app.get("/available-units", response_model=models.AvailableUnits)
-@app.get("/available-units/", response_model=models.AvailableUnits)
 def available_units(response: Response, db: Session = Depends(get_db)):
     """Get available units.
 
@@ -69,9 +67,7 @@ def available_units(response: Response, db: Session = Depends(get_db)):
     
     return body_response
 
-@app.get("/unit-location/", response_model=models.UnitLocation)
 @app.get("/unit-location/{unit_id}", response_model=models.UnitLocation)
-@app.get("/unit-location/{unit_id}/", response_model=models.UnitLocation)
 def unit_location(response: Response, unit_id: str, db: Session = Depends(get_db)):
     """Get unit location by ID.
 
@@ -120,7 +116,6 @@ def unit_location(response: Response, unit_id: str, db: Session = Depends(get_db
 
 
 @app.get("/available-mayors", response_model=models.AvailableMayors)
-@app.get("/available-mayors/", response_model=models.AvailableMayors)
 def available_mayors(response: Response, db: Session = Depends(get_db)):
     """Get available mayors.
 
@@ -151,9 +146,7 @@ def available_mayors(response: Response, db: Session = Depends(get_db)):
     
     return body_response
 
-@app.get("/units-by-mayor/", response_model=models.AvailableUnits)
 @app.get("/units-by-mayor/{mayor}", response_model=models.AvailableUnits)
-@app.get("/units-by-mayor/{mayor}/", response_model=models.AvailableUnits)
 def units_by_mayor(response: Response, mayor: str, db: Session = Depends(get_db)):
     """Get available units in a specyfic location.
 
