@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.26.1 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.network/metrobuses: "true"
+    io.kompose.service: api
+  name: api
+spec:
+  containers:
+    - image: metrobuses-api
+      name: api
+      ports:
+        - containerPort: 80
+      resources: {}
+      volumeMounts:
+        - mountPath: /app/app
+          name: api-claim0
+  restartPolicy: OnFailure
+  volumes:
+    - name: api-claim0
+      persistentVolumeClaim:
+        claimName: api-claim0
+status: {}
