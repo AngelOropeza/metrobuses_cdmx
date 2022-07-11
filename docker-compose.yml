@@ -1,0 +1,37 @@
+version: '3.1'
+services:
+  postgres:
+    image: "postgres:10.1-alpine"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "secret"
+      POSTGRES_DB: "metrobuses"
+      PGDATA: /data/postgres
+    ports:
+      - "5433:5432"
+    restart: "unless-stopped"
+    volumes:
+      - ./app/migrations/:/docker-entrypoint-initdb.d/
+    networks:
+      - "metrobuses"
+  api:
+    image: metrobuses-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    restart: on-failure
+    networks:
+      - "metrobuses"
+    depends_on:
+      - postgres
+
+    volumes:
+      - ./app:/app/app
+
+networks:
+  metrobuses:
+
+volumes:
+  postgres:
