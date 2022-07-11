@@ -15,8 +15,15 @@ def get_location_by_id(db: Session, unit_id: int):
     """).fetchone()
 
 def get_mayors(db: Session):
-    return db.execute(f"""
+    return db.execute("""
         SELECT DISTINCT alcaldia
         FROM metrobuses
         WHERE vehicle_current_status = '1';
+    """).fetchall()
+
+def get_units_by_mayor(db: Session, mayor: str):
+    return db.execute(f"""
+        SELECT vehicle_id
+        FROM metrobuses
+        WHERE alcaldia ILIKE UNACCENT('%{mayor}%');
     """).fetchall()

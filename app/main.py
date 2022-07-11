@@ -150,3 +150,37 @@ def available_mayors(response: Response, db: Session = Depends(get_db)):
         }
     
     return body_response
+
+@app.get("/units-by-mayor/", response_model=models.AvailableUnits)
+@app.get("/units-by-mayor/{mayor}", response_model=models.AvailableUnits)
+@app.get("/units-by-mayor/{mayor}/", response_model=models.AvailableUnits)
+def units_by_mayor(response: Response, mayor: str, db: Session = Depends(get_db)):
+    """Get available units in a specyfic location.
+
+    param response Response: response object
+    param mayor str: mayor name
+    param db Session: database object
+    return response models.AvailableUnits: AvailableUnits model (JSON).
+    """
+
+    result = db_service.get_units_by_mayor(db, mayor)
+
+    if len(result) == 0:
+        body_response = {
+            "status": status.HTTP_404_NOT_FOUND,
+            "message": f"There are not units available in {mayor}",
+            "vehicle_ids": []
+        }
+
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return body_response
+
+    mb_units = [int(unit.vehicle_id) for unit in result]
+
+    body_response = {
+            "status": status.HTTP_200_OK,
+            "message": f"There is/are {len(mb_units)} unit/s available in {mayor}",
+            "vehicle_ids": mb_units
+        }
+
+    return body_response
