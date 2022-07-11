@@ -13,3 +13,10 @@ def get_location_by_id(db: Session, unit_id: int):
         FROM metrobuses
         WHERE vehicle_id = {unit_id};
     """).fetchone()
+
+def get_mayors(db: Session):
+    return db.execute(f"""
+        SELECT DISTINCT alcaldia
+        FROM metrobuses
+        WHERE vehicle_current_status = '1';
+    """).fetchall()

@@ -15,10 +15,17 @@ class AvailableUnits(BaseModel):
     vehicle_ids: List[int]
 
 class UnitLocation(BaseModel):
-    """AvailableUnits model for a response."""
+    """Unit location model for a response."""
 
     status: int
     message: str
     unit_id: int
     position_latitude: float
     position_longitude: float
+
+class AvailableMayors(BaseModel):
+    """Available mayors model for a response."""
+
+    status: int
+    message: str
+    mayors: List[str]

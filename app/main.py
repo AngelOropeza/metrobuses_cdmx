@@ -117,3 +117,36 @@ def unit_location(response: Response, unit_id: str, db: Session = Depends(get_db
         }
     
     return body_response
+
+
+@app.get("/available-mayors", response_model=models.AvailableMayors)
+@app.get("/available-mayors/", response_model=models.AvailableMayors)
+def available_mayors(response: Response, db: Session = Depends(get_db)):
+    """Get available mayors.
+
+    param response Response: response object
+    param db Session: database object
+    return response models.AvailableUnits: AvailableUnits model (JSON).
+    """
+
+    result = db_service.get_mayors(db)
+    
+    if len(result) == 0:
+        body_response = {
+            "status": status.HTTP_404_NOT_FOUND,
+            "message": "There are not mayors available",
+            "mayors": []
+        }
+        
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return body_response
+
+    mayors = [str(mayor.alcaldia) for mayor in result]
+    
+    body_response = {
+            "status": status.HTTP_200_OK,
+            "message": f"There is/are {len(mayors)} mayor/s available",
+            "mayors": mayors
+        }
+    
+    return body_response
