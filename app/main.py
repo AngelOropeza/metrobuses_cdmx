@@ -69,7 +69,7 @@ def available_units(response: Response, db: Session = Depends(get_db)):
     
     return body_response
 
-
+@app.get("/unit-location/", response_model=models.UnitLocation)
 @app.get("/unit-location/{unit_id}", response_model=models.UnitLocation)
 @app.get("/unit-location/{unit_id}/", response_model=models.UnitLocation)
 def unit_location(response: Response, unit_id: str, db: Session = Depends(get_db)):
