@@ -26,5 +26,5 @@ def get_units_by_mayor(db: Session, mayor: str):
     return db.execute(f"""
         SELECT vehicle_id
         FROM metrobuses
-        WHERE alcaldia ILIKE UNACCENT('%{mayor}%');
+        WHERE UNACCENT(alcaldia) ILIKE UNACCENT('%{mayor}%');
     """).fetchall()
