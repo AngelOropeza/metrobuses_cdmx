@@ -18,7 +18,8 @@ def get_mayors(db: Session):
     return db.execute("""
         SELECT DISTINCT alcaldia
         FROM metrobuses
-        WHERE vehicle_current_status = '1';
+        WHERE vehicle_current_status = '1'
+        AND alcaldia IS NOT NULL;
     """).fetchall()
 
 def get_units_by_mayor(db: Session, mayor: str):
