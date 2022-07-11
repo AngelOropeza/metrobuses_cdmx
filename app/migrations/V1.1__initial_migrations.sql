@@ -17,3 +17,8 @@ CREATE TABLE IF NOT EXISTS metrobuses (
     trip_route_id INT,
     alcaldia VARCHAR(80)
 );
+
+COPY metrobuses(id, date_updated, vehicle_id, vehicle_label, vehicle_current_status, position_latitude, position_longitude, geographic_point, position_speed, position_odometer, trip_schedule_relationship, trip_id, trip_start_date, trip_route_id, alcaldia)
+FROM '/mb_data/clean_mb_data.csv'
+DELIMITER ','
+CSV HEADER;

@@ -12,6 +12,7 @@ services:
     restart: "unless-stopped"
     volumes:
       - ./app/migrations/:/docker-entrypoint-initdb.d/
+      - ./tmp/:/mb_data/
     networks:
       - "metrobuses"
   api:
